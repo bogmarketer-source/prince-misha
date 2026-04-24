@@ -11,165 +11,85 @@
         h1, h2, h3 { font-family: 'Unbounded', sans-serif; }
 
         /* Карточки меню */
-        .menu-photo-card {
-            height: 250px;
-            position: relative;
-            overflow: hidden;
-            border: 2px solid #000;
-            box-shadow: 6px 6px 0px #000;
-            transition: all 0.3s ease;
-            background-color: #e5e7eb;
-            cursor: pointer;
-        }
+        .menu-photo-card { height: 250px; position: relative; overflow: hidden; border: 2px solid #000; box-shadow: 6px 6px 0px #000; transition: all 0.3s ease; background-color: #e5e7eb; cursor: pointer; }
         .menu-photo-card:hover { transform: translate(-3px, -3px); box-shadow: 10px 10px 0px #000; }
         .menu-photo-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
         .menu-photo-card:hover img { transform: scale(1.1); }
-        .text-overlay {
-            position: absolute;
-            bottom: 0; left: 0; right: 0;
-            background: linear-gradient(transparent, rgba(0,0,0,0.85));
-            padding: 15px; color: white;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-        }
-
-        /* Кнопка добавления поверх фото */
-        .add-btn {
-            background-color: #f59e0b;
-            color: black;
-            width: 36px; height: 36px;
-            border-radius: 50%;
-            display: flex; justify-content: center; align-items: center;
-            font-size: 24px; font-weight: bold;
-            border: 2px solid white;
-            transition: transform 0.1s;
-        }
+        .text-overlay { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(0,0,0,0.85)); padding: 15px; color: white; display: flex; justify-content: space-between; align-items: flex-end; }
+        
+        .add-btn { background-color: #f59e0b; color: black; width: 36px; height: 36px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 24px; font-weight: bold; border: 2px solid white; transition: transform 0.1s; }
         .add-btn:active { transform: scale(0.9); }
 
-        /* АНИМАЦИЯ ПАДАЮЩИХ ИКОНОК */
+        /* Анимация летящей еды */
         .falling-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 40; }
         .falling-item { position: absolute; top: -10%; font-size: 2rem; animation: fall linear infinite; filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.1)); }
         @keyframes fall { 0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; } 100% { transform: translateY(110vh) rotate(360deg); opacity: 0.5; } }
         .f-1 { left: 8%; animation-duration: 12s; } .f-2 { left: 25%; animation-duration: 15s; animation-delay: -3s; }
-        .f-3 { left: 50%; animation-duration: 20s; animation-delay: -1s; } .f-4 { left: 75%; animation-duration: 14s; animation-delay: -5s; }
-        .f-5 { left: 90%; animation-duration: 18s; }
+        .f-3 { left: 50%; animation-duration: 20s; animation-delay: -1s; } .f-4 { left: 75%; animation-duration: 14s; animation-delay: -5s; } .f-5 { left: 90%; animation-duration: 18s; }
 
-        /* Корзина */
-        #cart-widget { box-shadow: 0 -10px 40px rgba(0,0,0,0.15); border-top: 3px solid #000; }
-        .cart-items-scroll::-webkit-scrollbar { width: 6px; }
-        .cart-items-scroll::-webkit-scrollbar-thumb { background-color: #d1d5db; border-radius: 10px; }
+        /* Ползунок громкости (кастом) */
+        input[type=range] { -webkit-appearance: none; background: transparent; }
+        input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; height: 12px; width: 12px; border-radius: 50%; background: #f59e0b; cursor: pointer; margin-top: -4px; }
+        input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 4px; cursor: pointer; background: #444; border-radius: 2px; }
     </style>
 </head>
 <body class="text-stone-900 relative pb-32">
 
     <div class="falling-container">
-        <div class="falling-item f-1">☕</div>
-        <div class="falling-item f-2">🥐</div>
-        <div class="falling-item f-3">🥪</div>
-        <div class="falling-item f-4">🍳</div>
-        <div class="falling-item f-5">🍫</div>
+        <div class="falling-item f-1">☕</div><div class="falling-item f-2">🥐</div><div class="falling-item f-3">🥪</div><div class="falling-item f-4">🍳</div><div class="falling-item f-5">🍫</div>
     </div>
 
     <div id="mini-player" class="fixed bottom-6 left-6 z-[60] w-72 shadow-2xl rounded-2xl overflow-hidden border-2 border-stone-800 bg-stone-900 flex flex-col transition-all duration-300">
         <div class="bg-black text-amber-500 text-[10px] uppercase font-black text-center py-2 px-4 tracking-[0.2em] flex justify-between items-center border-b border-stone-800">
-            <span class="flex items-center gap-2">🎵 Morcheeba Only</span>
-            <button onclick="document.getElementById('mini-player').style.display='none'" class="text-stone-500 hover:text-white text-lg leading-none" title="Закрыть плеер">&times;</button>
+            <span class="flex items-center gap-2">🎵 Morcheeba Vibes</span>
+            <button onclick="document.getElementById('mini-player').style.display='none'" class="text-stone-500 hover:text-white text-lg leading-none">&times;</button>
         </div>
-        <iframe frameborder="0" style="border:none;width:100%;height:150px; background: transparent;" width="100%" height="150" src="https://music.yandex.ru/iframe/#album/173518"></iframe>
+        <div class="p-4 flex flex-col gap-3">
+            <div class="text-white text-xs font-bold truncate text-center" id="track-name">Загрузка...</div>
+            <audio id="audio-player" src=""></audio>
+            <div class="flex justify-center items-center gap-6">
+                <button onclick="prevTrack()" class="text-stone-400 hover:text-amber-500 text-xl transition">⏮</button>
+                <button onclick="togglePlay()" id="play-btn" class="text-amber-500 hover:text-white text-3xl transition">▶</button>
+                <button onclick="nextTrack()" class="text-stone-400 hover:text-amber-500 text-xl transition">⏭</button>
+            </div>
+            <div class="flex items-center gap-2 mt-2">
+                <span class="text-stone-500 text-xs">🔈</span>
+                <input type="range" id="volume-slider" min="0" max="1" step="0.05" value="0.3" class="w-full" oninput="setVolume(this.value)">
+                <span class="text-stone-500 text-xs">🔊</span>
+            </div>
+        </div>
     </div>
 
-    <header class="relative h-[85vh] flex flex-col justify-end overflow-hidden bg-stone-200">
-        <img src="hero3.jpg" alt="Принц Миша" class="absolute inset-0 w-full h-full object-cover object-top">
-        <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black via-black/40 to-transparent p-6 text-center z-10">
-            <div class="max-w-xl mx-auto backdrop-blur-md bg-white/10 border border-white/20 p-6 rounded-3xl mb-4">
-                <h1 class="text-3xl md:text-5xl font-bold uppercase tracking-tighter text-white">Принц Миша</h1>
-                <p class="text-amber-400 font-bold tracking-[0.2em] uppercase text-xs mt-2 italic">Кофейный дом маленьких боссов</p>
-                <div class="mt-6">
-                    <a href="#menu" class="bg-amber-500 text-black px-10 py-3 rounded-full font-black hover:bg-white transition-colors uppercase text-sm">Выбрать вкусняшку</a>
-                </div>
+    <header class="flex flex-col bg-stone-900">
+        <div class="w-full h-[50vh] md:h-[65vh] bg-stone-200">
+            <img src="hero.jpg" alt="Принц Миша" class="w-full h-full object-cover object-top">
+        </div>
+        
+        <div class="w-full py-10 px-6 text-center bg-stone-900 text-white relative z-10 border-t-4 border-amber-500">
+            <h1 class="text-4xl md:text-6xl font-bold uppercase tracking-tighter text-white">Принц Миша</h1>
+            <p class="text-amber-400 font-bold tracking-[0.2em] uppercase text-xs md:text-sm mt-3 italic">Кофейный дом маленьких боссов</p>
+            <div class="mt-8">
+                <a href="#menu" class="inline-block bg-amber-500 text-black px-12 py-4 rounded-full font-black hover:bg-white transition-colors uppercase text-sm md:text-base">
+                    Выбрать вкусняшку
+                </a>
             </div>
         </div>
     </header>
 
     <section id="menu" class="py-20 px-4 max-w-7xl mx-auto relative z-20">
         <h2 class="text-3xl md:text-5xl uppercase font-black mb-12 text-center">Карта вкусов</h2>
-
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             
-            <div class="menu-photo-card rounded-3xl" onclick="addToCart('egg', 'Глазунья', 20)">
-                <img src="1.jpg" alt="Глазунья">
-                <div class="text-overlay">
-                    <div><h3 class="font-bold uppercase">Глазунья</h3><p class="text-[9px] opacity-70">С солью</p></div>
-                    <div class="flex items-center gap-3"><span class="font-black text-amber-400 text-xl">20₽</span><div class="add-btn">+</div></div>
-                </div>
-            </div>
-
-            <div class="menu-photo-card rounded-3xl" onclick="addToCart('latte', 'Латте', 20)">
-                <img src="2.jpg" alt="Латте">
-                <div class="text-overlay">
-                    <div><h3 class="font-bold uppercase">Латте</h3><p class="text-[9px] opacity-70">Молочный</p></div>
-                    <div class="flex items-center gap-3"><span class="font-black text-amber-400 text-xl">20₽</span><div class="add-btn">+</div></div>
-                </div>
-            </div>
-
-            <div class="menu-photo-card rounded-3xl" onclick="addToCart('cap', 'Каппучино', 20)">
-                <img src="3.jpg" alt="Каппучино">
-                <div class="text-overlay">
-                    <div><h3 class="font-bold uppercase">Каппучино</h3><p class="text-[9px] opacity-70">Классика</p></div>
-                    <div class="flex items-center gap-3"><span class="font-black text-amber-400 text-xl">20₽</span><div class="add-btn">+</div></div>
-                </div>
-            </div>
-
-            <div class="menu-photo-card rounded-3xl" onclick="addToCart('sand', 'Сендвич', 30)">
-                <img src="4.jpg" alt="Сендвич">
-                <div class="text-overlay">
-                    <div><h3 class="font-bold uppercase">Сендвич</h3><p class="text-[9px] opacity-70">С тем что есть</p></div>
-                    <div class="flex items-center gap-3"><span class="font-black text-amber-400 text-xl">30₽</span><div class="add-btn">+</div></div>
-                </div>
-            </div>
-
-            <div class="menu-photo-card rounded-3xl" onclick="addToCart('esp', 'Эспрессо', 20)">
-                <img src="5.jpg" alt="Эспрессо">
-                <div class="text-overlay">
-                    <div><h3 class="font-bold uppercase">Эспрессо</h3><p class="text-[9px] opacity-70">Заряд</p></div>
-                    <div class="flex items-center gap-3"><span class="font-black text-amber-400 text-xl">20₽</span><div class="add-btn">+</div></div>
-                </div>
-            </div>
-
-            <div class="menu-photo-card rounded-3xl" onclick="addToCart('juice', 'Сок + лёд', 30)">
-                <img src="6.jpg" alt="Сок">
-                <div class="text-overlay">
-                    <div><h3 class="font-bold uppercase">Сок + лёд</h3><p class="text-[9px] opacity-70">Холодный</p></div>
-                    <div class="flex items-center gap-3"><span class="font-black text-amber-400 text-xl">30₽</span><div class="add-btn">+</div></div>
-                </div>
-            </div>
-
-            <div class="menu-photo-card rounded-3xl" onclick="addToCart('limo', 'Лимонад', 20)">
-                <img src="7.jpg" alt="Лимонад">
-                <div class="text-overlay">
-                    <div><h3 class="font-bold uppercase">Лимонад</h3><p class="text-[9px] opacity-70">Свежесть</p></div>
-                    <div class="flex items-center gap-3"><span class="font-black text-amber-400 text-xl">20₽</span><div class="add-btn">+</div></div>
-                </div>
-            </div>
-
-            <div class="menu-photo-card rounded-3xl" onclick="addToCart('choc', 'Шоколад', 30)">
-                <img src="8.jpg" alt="Шоколад">
-                <div class="text-overlay">
-                    <div><h3 class="font-bold uppercase">Шоколад</h3><p class="text-[9px] opacity-70">С миндалем</p></div>
-                    <div class="flex items-center gap-3"><span class="font-black text-amber-400 text-xl">30₽</span><div class="add-btn">+</div></div>
-                </div>
-            </div>
+            <div class="menu-photo-card rounded-3xl" onclick="addToCart('egg', 'Глазунья', 20)"><img src="1.jpg" alt="Глазунья"><div class="text-overlay"><div><h3 class="font-bold uppercase">Глазунья</h3><p class="text-[9px] opacity-70">С солью</p></div><div class="flex items-center gap-3"><span class="font-black text-amber-400 text-xl">20₽</span><div class="add-btn">+</div></div></div></div>
+            <div class="menu-photo-card rounded-3xl" onclick="addToCart('latte', 'Латте', 20)"><img src="2.jpg" alt="Латте"><div class="text-overlay"><div><h3 class="font-bold uppercase">Латте</h3><p class="text-[9px] opacity-70">Молочный</p></div><div class="flex items-center gap-3"><span class="font-black text-amber-400 text-xl">20₽</span><div class="add-btn">+</div></div></div></div>
+            <div class="menu-photo-card rounded-3xl" onclick="addToCart('cap', 'Каппучино', 20)"><img src="3.jpg" alt="Каппучино"><div class="text-overlay"><div><h3 class="font-bold uppercase">Каппучино</h3><p class="text-[9px] opacity-70">Классика</p></div><div class="flex items-center gap-3"><span class="font-black text-amber-400 text-xl">20₽</span><div class="add-btn">+</div></div></div></div>
+            <div class="menu-photo-card rounded-3xl" onclick="addToCart('sand', 'Сендвич', 30)"><img src="4.jpg" alt="Сендвич"><div class="text-overlay"><div><h3 class="font-bold uppercase">Сендвич</h3><p class="text-[9px] opacity-70">С тем что есть</p></div><div class="flex items-center gap-3"><span class="font-black text-amber-400 text-xl">30₽</span><div class="add-btn">+</div></div></div></div>
+            <div class="menu-photo-card rounded-3xl" onclick="addToCart('esp', 'Эспрессо', 20)"><img src="5.jpg" alt="Эспрессо"><div class="text-overlay"><div><h3 class="font-bold uppercase">Эспрессо</h3><p class="text-[9px] opacity-70">Заряд</p></div><div class="flex items-center gap-3"><span class="font-black text-amber-400 text-xl">20₽</span><div class="add-btn">+</div></div></div></div>
+            <div class="menu-photo-card rounded-3xl" onclick="addToCart('juice', 'Сок + лёд', 30)"><img src="6.jpg" alt="Сок"><div class="text-overlay"><div><h3 class="font-bold uppercase">Сок + лёд</h3><p class="text-[9px] opacity-70">Холодный</p></div><div class="flex items-center gap-3"><span class="font-black text-amber-400 text-xl">30₽</span><div class="add-btn">+</div></div></div></div>
+            <div class="menu-photo-card rounded-3xl" onclick="addToCart('limo', 'Лимонад', 20)"><img src="7.jpg" alt="Лимонад"><div class="text-overlay"><div><h3 class="font-bold uppercase">Лимонад</h3><p class="text-[9px] opacity-70">Свежесть</p></div><div class="flex items-center gap-3"><span class="font-black text-amber-400 text-xl">20₽</span><div class="add-btn">+</div></div></div></div>
+            <div class="menu-photo-card rounded-3xl" onclick="addToCart('choc', 'Шоколад', 30)"><img src="8.jpg" alt="Шоколад"><div class="text-overlay"><div><h3 class="font-bold uppercase">Шоколад</h3><p class="text-[9px] opacity-70">С миндалем</p></div><div class="flex items-center gap-3"><span class="font-black text-amber-400 text-xl">30₽</span><div class="add-btn">+</div></div></div></div>
 
         </div>
-    </section>
-
-    <section class="py-12 bg-stone-900 text-white text-center relative z-20 mb-8">
-        <h2 class="text-xl uppercase font-bold mb-6 opacity-60">Совет от бариста</h2>
-        <button onclick="randomChoice()" class="bg-amber-500 text-black px-8 py-3 rounded-2xl font-black text-lg border-2 border-white active:scale-95 transition-all">
-            ЧТО ВЫБРАТЬ?
-        </button>
-        <p id="res" class="mt-6 text-2xl font-black text-amber-400 uppercase italic min-h-[35px]"></p>
     </section>
 
     <div id="cart-widget" class="fixed bottom-0 left-0 w-full bg-white rounded-t-3xl z-50 transform translate-y-full transition-transform duration-300">
@@ -178,10 +98,7 @@
                 <h3 class="text-2xl font-black uppercase">Ваш заказ</h3>
                 <span id="cart-count" class="bg-amber-500 text-black px-3 py-1 rounded-full font-bold text-sm">0</span>
             </div>
-            
-            <div id="cart-items" class="cart-items-scroll max-h-[35vh] overflow-y-auto space-y-3 mb-4 pr-2">
-                </div>
-
+            <div id="cart-items" class="max-h-[35vh] overflow-y-auto space-y-3 mb-4 pr-2"></div>
             <div class="flex justify-between items-center bg-stone-100 p-4 rounded-2xl">
                 <div>
                     <p class="text-sm font-bold text-stone-500 uppercase">Итого к оплате:</p>
@@ -194,22 +111,62 @@
         </div>
     </div>
 
-    <footer class="py-6 text-center text-stone-500 text-[10px] tracking-widest uppercase font-bold">
-        © 2026 / Prince Misha Coffee House
-    </footer>
-
     <script>
-        function randomChoice() {
-            const items = ["Латте", "Каппучино", "Сок", "Глазунья", "Сендвич", "Лимонад", "Шоколад"];
-            const pick = items[Math.floor(Math.random() * items.length)];
-            const el = document.getElementById('res');
-            el.style.opacity = 0;
-            setTimeout(() => {
-                el.innerText = pick + "!";
-                el.style.opacity = 1;
-            }, 200);
+        // --- ЛОГИКА ПЛЕЕРА ---
+        // ВАЖНО: Загрузите файлы track1.mp3, track2.mp3 в свой репозиторий на GitHub!
+        const tracks = [
+            { name: "The Sea - Morcheeba", url: "track1.mp3" },
+            { name: "Rome Wasn't Built in a Day", url: "track2.mp3" },
+            { name: "Otherwise - Morcheeba", url: "track3.mp3" }
+        ];
+        
+        let currentTrackIdx = 0;
+        const audio = document.getElementById('audio-player');
+        const playBtn = document.getElementById('play-btn');
+        const trackNameEl = document.getElementById('track-name');
+
+        function loadTrack(idx) {
+            trackNameEl.innerText = tracks[idx].name;
+            audio.src = tracks[idx].url;
+            audio.load();
         }
 
+        function togglePlay() {
+            if (audio.paused) { 
+                audio.play(); 
+                playBtn.innerText = '⏸'; 
+            } else { 
+                audio.pause(); 
+                playBtn.innerText = '▶'; 
+            }
+        }
+
+        function nextTrack() {
+            currentTrackIdx = (currentTrackIdx + 1) % tracks.length;
+            loadTrack(currentTrackIdx);
+            audio.play();
+            playBtn.innerText = '⏸';
+        }
+
+        function prevTrack() {
+            currentTrackIdx = (currentTrackIdx - 1 + tracks.length) % tracks.length;
+            loadTrack(currentTrackIdx);
+            audio.play();
+            playBtn.innerText = '⏸';
+        }
+
+        function setVolume(val) {
+            audio.volume = val;
+        }
+
+        // Инициализация плеера
+        audio.volume = 0.3; // Громкость по умолчанию 30%
+        loadTrack(0);
+        // Автоматически включать следующий трек, когда заканчивается текущий
+        audio.onended = nextTrack;
+
+
+        // --- ЛОГИКА КОРЗИНЫ ---
         const cart = {};
 
         function addToCart(id, name, price) {
@@ -232,8 +189,7 @@
             const totalEl = document.getElementById('cart-total');
             const countEl = document.getElementById('cart-count');
 
-            let total = 0;
-            let count = 0;
+            let total = 0; let count = 0;
             itemsContainer.innerHTML = ''; 
 
             const keys = Object.keys(cart);
@@ -248,14 +204,12 @@
             keys.forEach(id => {
                 const item = cart[id];
                 const itemTotal = item.price * item.qty;
-                total += itemTotal;
-                count += item.qty;
+                total += itemTotal; count += item.qty;
 
                 itemsContainer.innerHTML += `
                     <div class="flex justify-between items-center bg-white border border-stone-200 p-3 rounded-xl">
                         <div class="font-bold flex-1 text-sm md:text-base">${item.name}</div>
                         <div class="font-black text-amber-500 w-16 text-center">${itemTotal}₽</div>
-                        
                         <div class="flex items-center gap-3 bg-stone-100 px-2 py-1 rounded-lg">
                             <button onclick="changeQty('${id}', -1)" class="w-8 h-8 flex items-center justify-center font-bold bg-white rounded shadow-sm hover:bg-stone-200">-</button>
                             <span class="font-bold w-4 text-center">${item.qty}</span>
