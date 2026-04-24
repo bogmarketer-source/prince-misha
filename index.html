@@ -7,16 +7,10 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700&family=Montserrat:wght@300;600&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Montserrat', sans-serif; background-color: #f3f2f0; scroll-behavior: smooth; }
+        body { font-family: 'Montserrat', sans-serif; background-color: #f3f2f0; scroll-behavior: smooth; overflow-x: hidden; }
         h1, h2, h3 { font-family: 'Unbounded', sans-serif; }
 
-        .glass {
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
+        /* Карточки меню */
         .menu-photo-card {
             height: 250px;
             position: relative;
@@ -24,53 +18,71 @@
             border: 2px solid #000;
             box-shadow: 6px 6px 0px #000;
             transition: all 0.3s ease;
+            background-color: #e5e7eb; /* Серый фон, если фото не загрузилось */
         }
-        
-        .menu-photo-card:hover {
-            transform: translate(-3px, -3px);
-            box-shadow: 10px 10px 0px #000;
-        }
-
-        .menu-photo-card img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-
+        .menu-photo-card:hover { transform: translate(-3px, -3px); box-shadow: 10px 10px 0px #000; }
+        .menu-photo-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
         .menu-photo-card:hover img { transform: scale(1.1); }
-
         .text-overlay {
             position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: linear-gradient(transparent, rgba(0,0,0,0.8));
-            padding: 20px;
-            color: white;
+            bottom: 0; left: 0; right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.85));
+            padding: 20px; color: white;
         }
+
+        /* --- АНИМАЦИЯ ПАДАЮЩЕЙ ЕДЫ --- */
+        .falling-container {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; /* Чтобы иконки не мешали кликать по сайту */
+            z-index: 50; overflow: hidden;
+        }
+        .falling-item {
+            position: absolute; top: -10%;
+            font-size: 2rem; /* Размер иконок */
+            animation: fall linear infinite;
+            filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.1));
+        }
+        @keyframes fall {
+            0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(110vh) rotate(360deg); opacity: 0.5; }
+        }
+        /* Настройки для каждой падающей иконки (позиция и скорость) */
+        .f-1 { left: 10%; animation-duration: 15s; animation-delay: 0s; }
+        .f-2 { left: 25%; animation-duration: 18s; animation-delay: -5s; font-size: 2.5rem; }
+        .f-3 { left: 45%; animation-duration: 22s; animation-delay: -2s; }
+        .f-4 { left: 65%; animation-duration: 16s; animation-delay: -8s; font-size: 1.5rem; }
+        .f-5 { left: 80%; animation-duration: 19s; animation-delay: -4s; }
+        .f-6 { left: 90%; animation-duration: 21s; animation-delay: -10s; }
     </style>
 </head>
-<body class="text-stone-900">
+<body class="text-stone-900 relative">
 
-    <header class="relative h-screen flex flex-col justify-end p-6 md:p-12 overflow-hidden">
+    <div class="falling-container" aria-hidden="true">
+        <div class="falling-item f-1">🥤</div>
+        <div class="falling-item f-2">🥐</div>
+        <div class="falling-item f-3">☕</div>
+        <div class="falling-item f-4">🥪</div>
+        <div class="falling-item f-5">🍳</div>
+        <div class="falling-item f-6">🧃</div>
+    </div>
+
+    <header class="relative h-screen flex flex-col justify-end overflow-hidden">
         <img src="hero.jpg" alt="Принц Миша" class="absolute inset-0 w-full h-full object-cover object-top">
-        <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
-
-        <div class="relative glass p-8 md:p-12 rounded-[32px] max-w-2xl w-full mb-12 animate-fade border-l-8 border-amber-500">
-            <h1 class="text-4xl md:text-6xl font-bold uppercase tracking-tighter mb-2">Принц Миша</h1>
-            <p class="text-amber-800 font-bold tracking-[0.3em] uppercase text-sm mb-6">Детская кофейня & завтраки</p>
-            <a href="#menu" class="inline-block bg-black text-white px-8 py-4 rounded-xl font-bold hover:bg-amber-600 transition">СМОТРЕТЬ МЕНЮ</a>
+        
+        <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black via-black/70 to-transparent pt-32 pb-8 px-6 text-center">
+            <h1 class="text-4xl md:text-6xl font-bold uppercase tracking-tighter mb-2 text-white">Принц Миша</h1>
+            <p class="text-amber-400 font-bold tracking-[0.3em] uppercase text-sm mb-6">Детская кофейня & завтраки</p>
+            <a href="#menu" class="inline-block bg-amber-500 text-black px-8 py-3 rounded-xl font-bold hover:bg-white transition-colors">СМОТРЕТЬ МЕНЮ</a>
         </div>
     </header>
 
-    <section id="menu" class="py-24 px-6 max-w-7xl mx-auto">
+    <section id="menu" class="py-24 px-6 max-w-7xl mx-auto relative z-10">
         <h2 class="text-3xl md:text-5xl uppercase font-black mb-16 text-center italic">Наше Меню</h2>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             
             <div class="menu-photo-card rounded-2xl">
-                <img src="https://images.unsplash.com/photo-1536939459926-301728717817?q=80&w=500" alt="Латте">
+                <img src="https://images.unsplash.com/photo-1585494156145-1c60a4fe952b?auto=format&fit=crop&w=600&q=80" alt="Латте">
                 <div class="text-overlay">
                     <div class="flex justify-between items-end">
                         <div>
@@ -83,7 +95,7 @@
             </div>
 
             <div class="menu-photo-card rounded-2xl">
-                <img src="https://images.unsplash.com/photo-1572442388796-11668a67e53d?q=80&w=500" alt="Капучино">
+                <img src="https://images.unsplash.com/photo-1572442388796-11668a67e53d?auto=format&fit=crop&w=600&q=80" alt="Капучино">
                 <div class="text-overlay">
                     <div class="flex justify-between items-end">
                         <div>
@@ -96,7 +108,7 @@
             </div>
 
             <div class="menu-photo-card rounded-2xl">
-                <img src="https://images.unsplash.com/photo-1513558161293-cdaf765896ff?q=80&w=500" alt="Сок">
+                <img src="https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=600&q=80" alt="Сок">
                 <div class="text-overlay">
                     <div class="flex justify-between items-end">
                         <div>
@@ -109,7 +121,7 @@
             </div>
 
             <div class="menu-photo-card rounded-2xl">
-                <img src="https://images.unsplash.com/photo-1525351484163-7529414344d8?q=80&w=500" alt="Глазунья">
+                <img src="https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=600&q=80" alt="Глазунья">
                 <div class="text-overlay">
                     <div class="flex justify-between items-end">
                         <div>
@@ -122,7 +134,7 @@
             </div>
 
             <div class="menu-photo-card rounded-2xl">
-                <img src="https://images.unsplash.com/photo-1528735602780-2552fd46c7af?q=80&w=500" alt="Сандвич">
+                <img src="https://images.unsplash.com/photo-1528735602780-2552fd46c7af?auto=format&fit=crop&w=600&q=80" alt="Сандвич">
                 <div class="text-overlay">
                     <div class="flex justify-between items-end">
                         <div>
@@ -137,16 +149,16 @@
         </div>
     </section>
 
-    <section class="py-24 bg-stone-900 text-white text-center">
+    <section class="py-24 bg-stone-900 text-white text-center relative z-10">
         <h2 class="text-2xl uppercase font-bold mb-8">Что выберет бариста?</h2>
         <button onclick="randomChoice()" class="bg-amber-500 text-black px-12 py-6 rounded-2xl font-black text-xl border-4 border-white shadow-[8px_8px_0px_rgba(255,255,255,0.2)] active:translate-y-1 active:shadow-none transition-all">
             УЗНАТЬ
         </button>
-        <p id="res" class="mt-10 text-3xl font-black text-amber-400 uppercase italic"></p>
+        <p id="res" class="mt-10 text-3xl font-black text-amber-400 uppercase italic min-h-[40px]"></p>
     </section>
 
-    <footer class="py-12 text-center text-stone-500 text-[10px] tracking-widest uppercase font-bold">
-        © 2026 / Кофейный Дом Принц Миша / Лица открыты, кофе налит
+    <footer class="py-12 text-center text-stone-500 text-[10px] tracking-widest uppercase font-bold relative z-10">
+        © 2026 / Кофейный Дом Принц Миша
     </footer>
 
     <script>
